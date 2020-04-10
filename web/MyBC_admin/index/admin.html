@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>admin</title>
+		<!-- build:inlinecss -->
+		<link href="admin.css" rel="stylesheet" />
+		<!-- endbuild -->
+	</head>
+	<body>
+		<header>
+			<h1>文件管理</h1>
+			<form id="fileForm" method="POST" action="/update" enctype="multipart/form-data" target="mf">
+				<a href="javascript:;" class="a-upload">覆盖上传
+					<input id="file" type="file" onchange="fileInputChange()" webkitdirectory multiple />
+				</a>
+			</form>
+			<iframe id="mf" name="mf" style="display:none;"></iframe>
+		</header>
+		<div id="state" onclick="stateClick()"></div>
+		<div class="state-div">
+			<div>总容量：<span id="cap"></span>；已用容量：<span id="sy"></span></div>
+		</div>
+		<table>
+			<thead class="drak">
+				<tr>
+					<td>名称</td>
+					<td>大小</td>
+				</tr>
+			</thead>
+			<tbody id="body">
+			</tbody>
+		</table>
+		<!-- build:inlinejs -->
+		<script src="admin.js"></script>
+		<!-- endbuild -->
+	</body>
+</html>
