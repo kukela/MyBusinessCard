@@ -20,6 +20,7 @@ Web使用了NPM，Gulp。在命令行输入Gulp可以把admin页面编译到buil
 ### 4. 注意
 1. ESP LINK 的 RXD接RXD，TXD接TXD，GND需要和名片的GND共地。接口不支持热插拔！！
 2. PCB厚度1.2mm。
+3. ESP8266EX最大支持16MB Flash，可用Web主页空间不到15MB。
 
 <br>
 
