@@ -1,10 +1,18 @@
 var httpRequest = new XMLHttpRequest();
-getDomById("jt").innerText = "JSTest";
 
+var jt = getDomById("jt");
+jt.innerText = "JSTest";
 var led1 = getDomById("led1");
 var led2 = getDomById("led2");
 var wl = getDomById("wl");
 var off = getDomById("off");
+var ti = new Date().getTime();
+console.log(ti);
+
+window.onload = function() {
+	var t = new Date().getTime() - ti;
+	jt.innerText = "Load time: " + t + "ms";
+}
 
 function mClick(e) {
 	switch (e.id) {
