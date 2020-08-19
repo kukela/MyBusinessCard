@@ -6,8 +6,8 @@ var led1 = getDomById("led1");
 var led2 = getDomById("led2");
 var wl = getDomById("wl");
 var off = getDomById("off");
+var channel = getDomById("channel");
 var ti = new Date().getTime();
-console.log(ti);
 
 window.onload = function() {
 	var t = new Date().getTime() - ti;
@@ -46,6 +46,30 @@ function mClick(e) {
 		}
 	});
 }
+
+function cChnage() {
+	requestGet("/channel?v=" + channel.value, function() {
+		if (httpRequest.readyState != 4) {
+			return;
+		}
+		if (httpRequest.status != 200) {
+			return;
+		}
+	});
+}
+
+requestGet("/getChannel", function() {
+	if (httpRequest.readyState != 4) {
+		return;
+	}
+	if (httpRequest.status != 200) {
+		return;
+	}
+	var text = httpRequest.responseText;
+	if (!isNaN(text)) {
+		channel.value = text;
+	}
+});
 
 //get请求
 function requestGet(url, f) {

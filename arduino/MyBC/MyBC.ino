@@ -3,6 +3,7 @@
 #include <ESP8266WebServer.h>
 #include <FS.h>
 #include <Ticker.h>
+#include <EEPROM.h>
 
 #define L1 4
 #define L2 5
@@ -22,9 +23,14 @@ bool isLightLed1 = false;
 bool isLightLed2 = false;
 bool isWLLed = false;
 
+static String MSSID = "aMyCard";
+static String MPSK = "";
+static byte channelAddr = 0;
+
 void setup()
 {
   Serial.begin(115200);
+  EEPROM.begin(2);
   while (!Serial)
     ;
   Serial.println();
@@ -34,7 +40,7 @@ void setup()
 
   WiFi.mode(WIFI_AP);
   WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
-  WiFi.softAP("aMyCard");
+  changeAP();
 
   dnsServer.setTTL(300);
   dnsServer.setErrorReplyCode(DNSReplyCode::ServerFailure);
@@ -47,6 +53,8 @@ void setup()
   webServer.onNotFound(handleRoot);
   webServer.on("/admin", HTTP_GET, handleAdmin);
   webServer.on("/led", HTTP_GET, handleLed);
+  webServer.on("/channel", HTTP_GET, handleChannel);
+  webServer.on("/getChannel", HTTP_GET, handleGetChannel);
   webServer.begin();
 
   digitalWrite(L1, LOW);
@@ -102,4 +110,18 @@ void ledLight(uint8_t type) {
       digitalWrite(L2, HIGH);
       break;
   }
+}
+
+void changeAP() {  
+  uint8_t v = getChangeAp();
+  Serial.println("read channel: " + String(v));
+  WiFi.softAP(MSSID, MPSK, v);
+}
+
+uint8_t getChangeAp() {
+  uint8_t v = EEPROM.read(channelAddr);
+  if (v < 1 || v > 14) {
+    v = 1;
+  }
+  return v;
 }
