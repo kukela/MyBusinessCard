@@ -3,14 +3,31 @@ body {
 	margin: 0;
 }
 
-header {
+.header {
+	position: relative;
 	height: 60px;
+	margin-top: 20px;
 }
 
-header h1 {
+.header:first-of-type {
+	margin-top: 0;
+}
+
+.header h1 {
 	margin: 0 20px 0 20px;
 	line-height: 60px;
 	color: #303133;
+}
+
+.dc {
+	height: 44px;
+	line-height: 44px;
+	border: 1px solid #e4e7ed;
+	border-radius: 4px;
+	background: #ebeef5;
+	padding: 0 12px;
+	color: #303133;
+	font-size: 16px;
 }
 
 .a-upload {
@@ -19,13 +36,7 @@ header h1 {
 	right: 20px;
 	padding: 0 12px;
 	margin: 0;
-	height: 44px;
-	line-height: 44px;
 	cursor: pointer;
-	color: #303133;
-	background: #ebeef5;
-	border: 1px solid #e4e7ed;
-	border-radius: 4px;
 	overflow: hidden;
 	display: inline-block;
 	text-decoration: none;
@@ -47,16 +58,21 @@ header h1 {
 	cursor: pointer
 }
 
-.state-div {
-	height: 30px;
+.item {
+	position: relative;
+	min-height: 30px;
 	margin-top: 10px;
 	padding: 0 20px;
 }
 
-.state-div>div {
-	font-size: 13px;
+.item>div {
+	font-size: 14px;
 	color: #303133;
 	line-height: 30px;
+}
+
+.item>select {
+	width: 100%;
 }
 
 table {

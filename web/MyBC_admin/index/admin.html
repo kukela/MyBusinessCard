@@ -9,17 +9,38 @@
 		<!-- endbuild -->
 	</head>
 	<body>
-		<header>
+		<div class="header">
+			<h1>信道管理</h1>
+		</div>
+		<div class="item">
+			<select id="channel" class="dc" name="channel" onchange="cChnage()">
+				<option value="1">1 ---------- 2.412GHz</option>
+				<option value="2">2 ---------- 2.417Ghz</option>
+				<option value="3">3 ---------- 2.422Ghz</option>
+				<option value="4">4 ---------- 2.427Ghz</option>
+				<option value="5">5 ---------- 2.432Ghz</option>
+				<option value="6">6 ---------- 2.437Ghz</option>
+				<option value="7">7 ---------- 2.442Ghz</option>
+				<option value="8">8 ---------- 2.447Ghz</option>
+				<option value="9">9 ---------- 2.452Ghz</option>
+				<option value="10">10 -------- 2.457Ghz</option>
+				<option value="11">11 -------- 2.462Ghz</option>
+				<option value="12">12 -------- 2.467Ghz</option>
+				<option value="13">13 -------- 2.472Ghz</option>
+				<option value="14">14 -------- 2.484Ghz</option>
+			</select>
+		</div>
+		<div class="header">
 			<h1>文件管理</h1>
 			<form id="fileForm" method="POST" action="/update" enctype="multipart/form-data" target="mf">
-				<a href="javascript:;" class="a-upload">覆盖上传
+				<a href="javascript:;" class="dc a-upload">覆盖上传
 					<input id="file" type="file" onchange="fileInputChange()" webkitdirectory multiple />
 				</a>
 			</form>
 			<iframe id="mf" name="mf" style="display:none;"></iframe>
-		</header>
+		</div>
 		<div id="state" onclick="stateClick()"></div>
-		<div class="state-div">
+		<div class="item">
 			<div>总容量：<span id="cap"></span>；已用容量：<span id="sy"></span></div>
 		</div>
 		<table>

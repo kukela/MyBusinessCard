@@ -1,12 +1,28 @@
 var httpRequest = new XMLHttpRequest();
 var mf = getDomById("mf");
 var state = getDomById("state");
+var channel = getDomById("channel");
 
-getInfo();
+getInfo(function() {
+	getChannel();
+});
 
-//获取数据
-function getInfo() {
-	requestGet("http://www.hello.com/info", function() {
+//获取信道数据
+function getChannel() {
+	requestGet("/getChannel", function() {
+		if (httpRequest.readyState != 4 || httpRequest.status != 200) {
+			return;
+		}
+		var text = httpRequest.responseText;
+		if (!isNaN(text)) {
+			channel.value = text;
+		}
+	});
+}
+
+//获取文件数据
+function getInfo(bc) {
+	requestGet("/info", function() {
 		if (httpRequest.readyState != 4 || httpRequest.status != 200) {
 			return;
 		}
@@ -22,10 +38,11 @@ function getInfo() {
 		// 	}]
 		// }
 		refreshPage(json);
+		bc();
 	});
 };
 
-//刷新页面
+//刷新文件页面
 function refreshPage(json) {
 	var cap = getDomById("cap");
 	cap.innerText = bytes2CapStr(json.totalBytes, 1);
@@ -50,6 +67,18 @@ function refreshPage(json) {
 	var sy = getDomById("sy");
 	sy.innerText = bytes2CapStr(json.usedBytes, 1);
 };
+
+//选择信道改变
+function cChnage() {
+	requestGet("/channel?v=" + channel.value, function() {
+		if (httpRequest.readyState != 4) {
+			return;
+		}
+		if (httpRequest.status != 200) {
+			return;
+		}
+	});
+}
 
 //文件按钮改变
 function fileInputChange() {
