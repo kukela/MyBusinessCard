@@ -2,23 +2,11 @@ var httpRequest = new XMLHttpRequest();
 var mf = getDomById("mf");
 var state = getDomById("state");
 var channel = getDomById("channel");
+var homeUrl = getDomById("homeUrl");
 
 getInfo(function() {
-	getChannel();
+	getConfig();
 });
-
-//获取信道数据
-function getChannel() {
-	requestGet("/getChannel", function() {
-		if (httpRequest.readyState != 4 || httpRequest.status != 200) {
-			return;
-		}
-		var text = httpRequest.responseText;
-		if (!isNaN(text)) {
-			channel.value = text;
-		}
-	});
-}
 
 //获取文件数据
 function getInfo(bc) {
@@ -41,6 +29,20 @@ function getInfo(bc) {
 		bc();
 	});
 };
+
+//获取配置信息
+function getConfig() {
+	requestGet("/config", function() {
+		if (httpRequest.readyState != 4 || httpRequest.status != 200) {
+			return;
+		}
+		var jsonStr = httpRequest.responseText;
+		var json = JSON.parse(jsonStr);
+
+		channel.value = json["channel"];
+		homeUrl.value = json["homeUrl"];
+	});
+}
 
 //刷新文件页面
 function refreshPage(json) {
@@ -68,13 +70,19 @@ function refreshPage(json) {
 	sy.innerText = bytes2CapStr(json.usedBytes, 1);
 };
 
-//选择信道改变
+// 修改信道
 function cChnage() {
-	requestGet("/channel?v=" + channel.value, function() {
-		if (httpRequest.readyState != 4) {
-			return;
-		}
-		if (httpRequest.status != 200) {
+	putConfig("c=" + channel.value);
+}
+
+// 修改首页地址
+function huChange() {
+	putConfig("hu=" + homeUrl.value);
+}
+
+function putConfig(v) {
+	requestGet("/putConfig?" + v, function() {
+		if (httpRequest.readyState != 4 || httpRequest.status != 200) {
 			return;
 		}
 	});

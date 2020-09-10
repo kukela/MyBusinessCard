@@ -4,7 +4,15 @@ const gulp = require('gulp'),
 
 
 gulp.task('default', function() {
-	return gulp.src('./index/*.html')
+	return build("index");
+});
+
+gulp.task('update', function() {
+	return build("update");
+});
+
+function build(dir) {
+	return gulp.src('./' + dir + '/*.html')
 	.pipe($.usemin({
 		html: [$.htmlMinifier({
 			collapseWhitespace: true,
@@ -15,8 +23,7 @@ gulp.task('default', function() {
 	}))
 	.pipe($.replace('"', '\\"'))
 	.pipe(gulp.dest('build/'));
-	quoteCharacter
-});
+}
 
 //在管道中 打印
 function t2Log(file, enc, cb) {

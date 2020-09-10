@@ -38,34 +38,28 @@ function mClick(e) {
 	type[1] = led2.checked == true ? 1 : 0;
 	type[2] = wl.checked == true ? 1 : 0;
 	requestGet("/led?type=" + type.join(""), function() {
-		if (httpRequest.readyState != 4) {
-			return;
-		}
-		if (httpRequest.status != 200) {
+		if (httpRequest.readyState != 4 || httpRequest.status != 200) {
 			return;
 		}
 	});
 }
 
 function cChnage() {
-	requestGet("/channel?v=" + channel.value, function() {
-		if (httpRequest.readyState != 4) {
-			return;
-		}
-		if (httpRequest.status != 200) {
+	requestGet("/putConfig?c=" + channel.value, function() {
+		if (httpRequest.readyState != 4 || httpRequest.status != 200) {
 			return;
 		}
 	});
 }
 
-requestGet("/getChannel", function() {
+requestGet("/config", function() {
 	if (httpRequest.readyState != 4 || httpRequest.status != 200) {
 		return;
 	}
-	var text = httpRequest.responseText;
-	if (!isNaN(text)) {
-		channel.value = text;
-	}
+	var jsonStr = httpRequest.responseText;
+	var json = JSON.parse(jsonStr);
+
+	channel.value = json["channel"];
 });
 
 //get请求

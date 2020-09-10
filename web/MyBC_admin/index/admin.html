@@ -5,12 +5,12 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>admin</title>
 		<!-- build:inlinecss -->
-		<link href="admin.css" rel="stylesheet" />
+		<link rel="stylesheet" href="admin.css" />
 		<!-- endbuild -->
 	</head>
 	<body>
 		<div class="header">
-			<h1>信道管理</h1>
+			<h1>选择信道</h1>
 		</div>
 		<div class="item">
 			<select id="channel" class="dc" name="channel" onchange="cChnage()">
@@ -31,9 +31,16 @@
 			</select>
 		</div>
 		<div class="header">
+			<h1>首页地址</h1>
+			<button class="dc rbtn" onclick="huChange()">确 定</button>
+		</div>
+		<div class="item">
+			<input id="homeUrl" class="dc" type="text" placeholder="请输入网站首页地址" value=""/>
+		</div>
+		<div class="header">
 			<h1>文件管理</h1>
 			<form id="fileForm" method="POST" action="/update" enctype="multipart/form-data" target="mf">
-				<a href="javascript:;" class="dc a-upload">覆盖上传
+				<a href="javascript:;" class="dc rbtn">覆盖上传
 					<input id="file" type="file" onchange="fileInputChange()" webkitdirectory multiple />
 				</a>
 			</form>

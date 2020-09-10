@@ -1,3 +1,4 @@
+
 #include <ESP8266WiFi.h>
 #include <DNSServer.h>
 #include <ESP8266WebServer.h>
@@ -5,32 +6,20 @@
 #include <Ticker.h>
 #include <EEPROM.h>
 
+// 引脚地址
 #define L1 4
 #define L2 5
 
-const byte DNS_PORT = 53;
+// 网络相关
 IPAddress apIP(192, 168, 1, 1);
 DNSServer dnsServer;
+static const byte DNS_PORT = 53;
 ESP8266WebServer webServer(80);
-
-Dir dir;
-File file;
-uint8_t maxPathLength;// 最大文件路径长度
-
-Ticker ticker;
-uint8_t tickerIndex = 0;
-bool isLightLed1 = false;
-bool isLightLed2 = false;
-bool isWLLed = false;
-
-static String MSSID = "aMyCard";
-static String MPSK = "";
-static byte channelAddr = 0;
 
 void setup()
 {
   Serial.begin(115200);
-  EEPROM.begin(2);
+  EEPROM.begin(1+128);
   while (!Serial)
     ;
   Serial.println();
@@ -40,21 +29,24 @@ void setup()
 
   WiFi.mode(WIFI_AP);
   WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
-  changeAP();
+  setChangeAP();
 
   dnsServer.setTTL(300);
-  dnsServer.setErrorReplyCode(DNSReplyCode::ServerFailure);
+  dnsServer.setErrorReplyCode(DNSReplyCode::NoError);
   dnsServer.start(DNS_PORT, "www.hello.com", apIP);
   dnsServer.start(DNS_PORT, "*", apIP);
 
-  webServer.on("/info", HTTP_GET, handleGetInfo);
-  webServer.on("/update", HTTP_POST, handleFileUploadAfter, handleFileUpload);
-  webServer.on("/erase", HTTP_GET, handleErase);
-  webServer.onNotFound(handleRoot);
+  webServer.on("/", HTTP_GET, handleRoot);
+  webServer.on("/generate_204", HTTP_GET, handleRoot);
+  webServer.on("/fwlink", handleRoot);
   webServer.on("/admin", HTTP_GET, handleAdmin);
-  webServer.on("/led", HTTP_GET, handleLed);
-  webServer.on("/channel", HTTP_GET, handleChannel);
-  webServer.on("/getChannel", HTTP_GET, handleGetChannel);
+  webServer.onNotFound(handleNotFound);
+  webServer.on("/info", HTTP_GET, handleGetInfo); // 文件信息
+  webServer.on("/update", HTTP_POST, handleFileUploadAfter, handleFileUpload); // 上传文件
+  webServer.on("/erase", HTTP_GET, handleErase); // 格式化
+  webServer.on("/led", HTTP_GET, handleLed); // led操作
+  webServer.on("/config", HTTP_GET, handleConfig); // 配置信息
+  webServer.on("/putConfig", HTTP_GET, handlePutConfig); // 设置配置
   webServer.begin();
 
   digitalWrite(L1, LOW);
@@ -70,58 +62,4 @@ void loop()
 {
   dnsServer.processNextRequest();
   webServer.handleClient();
-}
-
-void ledLightType() {
-  tickerIndex++;
-  if (isWLLed && tickerIndex == 1) {
-    tickerIndex++;
-  }
-  switch (tickerIndex) {
-    case 1:
-      ledLight(0);
-      break;
-    case 2:
-      if (isLightLed1) {
-        ledLight(1);
-      }
-      break;
-    case 3:
-      if (isLightLed2) {
-        ledLight(2);
-      }
-      tickerIndex = 0;
-      break;
-  }
-}
-
-void ledLight(uint8_t type) {
-  switch (type) {
-    case 0:
-      digitalWrite(L1, LOW);
-      digitalWrite(L2, LOW);
-      break;
-    case 1:
-      digitalWrite(L1, HIGH);
-      digitalWrite(L2, LOW);
-      break;
-    case 2:
-      digitalWrite(L1, LOW);
-      digitalWrite(L2, HIGH);
-      break;
-  }
-}
-
-void changeAP() {  
-  uint8_t v = getChangeAp();
-  Serial.println("read channel: " + String(v));
-  WiFi.softAP(MSSID, MPSK, v);
-}
-
-uint8_t getChangeAp() {
-  uint8_t v = EEPROM.read(channelAddr);
-  if (v < 1 || v > 14) {
-    v = 1;
-  }
-  return v;
 }

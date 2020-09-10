@@ -1,6 +1,7 @@
 body {
 	padding: 0;
 	margin: 0;
+	color: #303133;
 }
 
 .header {
@@ -16,21 +17,20 @@ body {
 .header h1 {
 	margin: 0 20px 0 20px;
 	line-height: 60px;
-	color: #303133;
 }
 
 .dc {
 	height: 44px;
 	line-height: 44px;
-	border: 1px solid #e4e7ed;
 	border-radius: 4px;
-	background: #ebeef5;
 	padding: 0 12px;
 	color: #303133;
 	font-size: 16px;
+	background: #ebeef5;
+	border: 1px solid #e4e7ed;
 }
 
-.a-upload {
+.rbtn {
 	position: absolute;
 	top: 8px;
 	right: 20px;
@@ -42,13 +42,13 @@ body {
 	text-decoration: none;
 }
 
-.a-upload:hover {
+.rbtn:hover {
 	background: #e4e7ed;
 	border-color: #ccc;
 	text-decoration: none;
 }
 
-.a-upload input {
+.rbtn input {
 	position: absolute;
 	font-size: 100px;
 	right: 0;
@@ -60,9 +60,9 @@ body {
 
 .item {
 	position: relative;
+	display: flex;
 	min-height: 30px;
-	margin-top: 10px;
-	padding: 0 20px;
+	margin: 10px 20px 0 20px;
 }
 
 .item>div {
@@ -71,8 +71,9 @@ body {
 	line-height: 30px;
 }
 
-.item>select {
-	width: 100%;
+.item>select,
+.item>input {
+	flex: 1;
 }
 
 table {
