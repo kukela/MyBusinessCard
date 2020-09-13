@@ -19,7 +19,7 @@ ESP8266WebServer webServer(80);
 void setup()
 {
   Serial.begin(115200);
-  EEPROM.begin(1+128);
+  EEPROM.begin(1 + 32 + 1);
   while (!Serial)
     ;
   Serial.println();

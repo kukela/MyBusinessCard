@@ -18,9 +18,11 @@ void replyFile(String path) {
 
 //配置请求头
 void configSendHeader() {
-  webServer.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-  webServer.sendHeader("Pragma", "no-cache");
-  webServer.sendHeader("Expires", "-1");
+  if (isCache()) {
+    webServer.sendHeader("Cache-Control", "max-age=691200, must-revalidate");
+  } else {
+    webServer.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  }
 }
 
 // 请求错误返回
@@ -60,6 +62,12 @@ String getHomeUrl() {
     strcpy(homeUrl, "index.html");
   }
   return homeUrl;
+}
+
+// 是否打开缓存
+boolean isCache() {
+  uint8_t v = EEPROM.read(changeAddr);
+  return v != 0;
 }
 
 // 是IP吗

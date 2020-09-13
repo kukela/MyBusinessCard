@@ -9,8 +9,11 @@
 		<!-- endbuild -->
 	</head>
 	<body>
-		<div class="header">
-			<h1>选择信道</h1>
+		<div class="t1 jj">
+			<h1>配置</h1>
+		</div>
+		<div class="t2 jj">
+			<div class="t">选择信道</div>
 		</div>
 		<div class="item">
 			<select id="channel" class="dc" name="channel" onchange="cChnage()">
@@ -30,14 +33,18 @@
 				<option value="14">14 -------- 2.484Ghz</option>
 			</select>
 		</div>
-		<div class="header">
-			<h1>首页地址</h1>
-			<button class="dc rbtn" onclick="huChange()">确 定</button>
+		<div class="t2 c jj">
+			<div class="t">开启缓存</div>
+			<input id="cache" type="checkbox" onchange="caChange()" />
+		</div>
+		<div class="t2 jj">
+			<div class="t">首页地址</div>
 		</div>
 		<div class="item">
-			<input id="homeUrl" class="dc" type="text" placeholder="请输入网站首页地址" value=""/>
+			<input id="homeUrl" class="dc" type="text" placeholder="请输入网站首页地址" value="" />
+			<button class="dc rbtn" onclick="huChange()">确 定</button>
 		</div>
-		<div class="header">
+		<div class="t1 jj">
 			<h1>文件管理</h1>
 			<form id="fileForm" method="POST" action="/update" enctype="multipart/form-data" target="mf">
 				<a href="javascript:;" class="dc rbtn">覆盖上传

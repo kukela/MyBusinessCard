@@ -178,30 +178,43 @@ void handleConfig() {
   json += getChangeAp();
   json += ",\"homeUrl\":\"";
   json += getHomeUrl();
-  json += "\"}";
+  json += "\",\"cache\":";
+  json += isCache();
+  json += "}";
   webServer.send(200, "application/json", json);
 }
 
 // 设置配置
 void handlePutConfig() {
   ticker.detach();
-  String c = webServer.arg("c");
-  Serial.println("channel: " + c);
-  String hu = webServer.arg("hu");
-  Serial.println("homeUrl: " + hu);
-  replyServerCode(200);
-
-  if (!c.isEmpty()) {
-    uint8_t iv = c.toInt();
-    EEPROM.write(channelAddr, iv);
+  
+  uint8_t i = 0;
+  String v = webServer.arg("c");
+  Serial.println("channel: " + v);
+  if (!v.isEmpty()) {
+    i = v.toInt();
+    EEPROM.write(channelAddr, i);
     EEPROM.commit();
     setChangeAP();
   }
-  if (!hu.isEmpty()) {
-    hu.toCharArray(homeUrl, sizeof(homeUrl));
-    for(uint8_t i = 0; i < sizeof(homeUrl); i++) {
+  
+  v = webServer.arg("hu");
+  Serial.println("homeUrl: " + v);
+  if (!v.isEmpty()) {
+    v.toCharArray(homeUrl, sizeof(homeUrl));
+    for (i = 0; i < sizeof(homeUrl); i++) {
       EEPROM.write(homeUrlStartAddr + i, homeUrl[i]);
     }
     EEPROM.commit();
   }
+  
+  v = webServer.arg("ca");
+  Serial.println("cache: " + v);
+  if (!v.isEmpty()) {
+    i = v == "true" ? 1 : 0;
+    EEPROM.write(changeAddr, i);
+    EEPROM.commit();
+  }  
+  
+  replyServerCode(200);
 }

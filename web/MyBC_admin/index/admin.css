@@ -4,19 +4,49 @@ body {
 	color: #303133;
 }
 
-.header {
+.jj {
+	margin: 0 20px;
+}
+
+.t1 {
 	position: relative;
 	height: 60px;
 	margin-top: 20px;
 }
 
-.header:first-of-type {
+.t1,
+.t2 {
+	display: flex;
+	align-items: center;
+}
+
+.t1:first-of-type {
 	margin-top: 0;
 }
 
-.header h1 {
-	margin: 0 20px 0 20px;
-	line-height: 60px;
+.t1 h1 {
+	margin: 0;
+	flex: 1;
+	color: #303133;
+}
+
+.t2 {
+	height: 30px;
+	margin-top: 10px;
+}
+
+.t2.c {
+	height: 50px;
+}
+
+.t2>.t {
+	font-size: 16px;
+	color: #303133;
+	flex: 1;
+}
+
+.t2>input {
+	width: 44px;
 }
 
 .dc {
@@ -31,15 +61,11 @@ body {
 }
 
 .rbtn {
-	position: absolute;
-	top: 8px;
-	right: 20px;
-	padding: 0 12px;
-	margin: 0;
 	cursor: pointer;
 	overflow: hidden;
 	display: inline-block;
 	text-decoration: none;
+	margin-left: 10px;
 }
 
 .rbtn:hover {

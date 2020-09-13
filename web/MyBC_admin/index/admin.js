@@ -2,6 +2,7 @@ var httpRequest = new XMLHttpRequest();
 var mf = getDomById("mf");
 var state = getDomById("state");
 var channel = getDomById("channel");
+var cache = getDomById("cache");
 var homeUrl = getDomById("homeUrl");
 
 getInfo(function() {
@@ -40,6 +41,7 @@ function getConfig() {
 		var json = JSON.parse(jsonStr);
 
 		channel.value = json["channel"];
+		cache.checked = json["cache"];
 		homeUrl.value = json["homeUrl"];
 	});
 }
@@ -73,6 +75,11 @@ function refreshPage(json) {
 // 修改信道
 function cChnage() {
 	putConfig("c=" + channel.value);
+}
+
+//开启缓存
+function caChange() {
+	putConfig("ca=" + cache.checked);
 }
 
 // 修改首页地址
