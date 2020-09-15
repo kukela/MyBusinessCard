@@ -2,9 +2,10 @@
 *.skb
 release/gcode
 release/*.zip
-video
 *.aedtresults
 *.aedt.lock
 aedt
 si9000
 design
+*.bin
+arduino/**/data

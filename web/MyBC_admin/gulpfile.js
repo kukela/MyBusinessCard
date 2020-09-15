@@ -7,10 +7,6 @@ gulp.task('default', function() {
 	return build("index");
 });
 
-gulp.task('update', function() {
-	return build("update");
-});
-
 function build(dir) {
 	return gulp.src('./' + dir + '/*.html')
 	.pipe($.usemin({

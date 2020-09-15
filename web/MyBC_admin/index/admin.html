@@ -10,13 +10,48 @@
 	</head>
 	<body>
 		<div class="t1 jj">
+			<h1>Wi-Fi 设置</h1>
+		</div>
+		<div class="t2 jj">
+			<div class="t">Wi-Fi 名称</div>
+		</div>
+		<div class="item">
+			<select id="ssid" class="dc" onchange="WCBtnReset()"></select>
+			<button id="scan" class="dc rbtn" onclick="reqScanSsid()">刷 新</button>
+		</div>
+		<div class="t2 jj">
+			<div class="t">Wi-Fi 密码</div>
+		</div>
+		<div class="item">
+			<input id="pwd" class="dc" type="password" placeholder="请输入 Wi-Fi 密码" value="" onchange="WCBtnReset()" />
+		</div>
+		<div class="item v">
+			<div class="info">当设备在同一局域网内，可以通过 <a href="http://hello.local">hello.local</a> 访问（安卓手机不支持），或者内网IP地址 <a id="hip"></a>
+				访问，效果和直接连名片Wi-Fi是一样的。</div>
+			<button id="wificonn" class="dc pt1" onclick="connSsid()"></button>
+		</div>
+		<div class="t1 jj">
+			<h1>更新</h1>
+		</div>
+		<div class="t2 c jj">
+			<div id="ver" class="t"></div>
+			<button id="vup" class="dc rbtn" onclick="reqUpdate(0)"></button>
+		</div>
+		<div class="t2 c jj">
+			<div id="wver" class="t"></div>
+			<button id="wup" class="dc rbtn" onclick="reqUpdate(1)"></button>
+		</div>
+		<div class="item v">
+			<div class="info">不推荐在直连名片Wi-Fi的情况下升级固件，因为升级过程会导致Wi-Fi断开，从而不能获取升级反馈。</div>
+		</div>
+		<div class="t1 jj">
 			<h1>配置</h1>
 		</div>
 		<div class="t2 jj">
 			<div class="t">选择信道</div>
 		</div>
 		<div class="item">
-			<select id="channel" class="dc" name="channel" onchange="cChnage()">
+			<select id="channel" class="dc" onchange="cChnage()">
 				<option value="1">1 ---------- 2.412GHz</option>
 				<option value="2">2 ---------- 2.417Ghz</option>
 				<option value="3">3 ---------- 2.422Ghz</option>
@@ -44,18 +79,20 @@
 			<input id="homeUrl" class="dc" type="text" placeholder="请输入网站首页地址" value="" />
 			<button class="dc rbtn" onclick="huChange()">确 定</button>
 		</div>
+		<div class="item v">
+			<button class="dc pt1" onclick="resetConf()">重置所有配置</button>
+		</div>
 		<div class="t1 jj">
 			<h1>文件管理</h1>
 			<form id="fileForm" method="POST" action="/update" enctype="multipart/form-data" target="mf">
-				<a href="javascript:;" class="dc rbtn">覆盖上传
-					<input id="file" type="file" onchange="fileInputChange()" webkitdirectory multiple />
-				</a>
+				<label class="dc rl" for="file">覆盖上传</label>
+				<input id="file" type="file" name="file" onchange="fileInputChange()" webkitdirectory multiple />
 			</form>
 			<iframe id="mf" name="mf" style="display:none;"></iframe>
 		</div>
-		<div id="state" onclick="stateClick()"></div>
+		<div id="state"></div>
 		<div class="item">
-			<div>总容量：<span id="cap"></span>；已用容量：<span id="sy"></span></div>
+			<div>总容量：<span id="cap"></span>；已用：<span id="sy"></span></div>
 		</div>
 		<table>
 			<thead class="drak">
@@ -68,6 +105,7 @@
 			</tbody>
 		</table>
 		<!-- build:inlinejs -->
+		<script src="utils.js"></script>
 		<script src="admin.js"></script>
 		<!-- endbuild -->
 	</body>

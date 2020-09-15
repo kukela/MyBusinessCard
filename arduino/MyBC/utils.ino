@@ -55,23 +55,21 @@ uint8_t getChangeAp() {
 
 // 获取首页地址
 String getHomeUrl() {
-  for (int i = 0; i < sizeof(homeUrl); i++) {
-    homeUrl[i] = EEPROM.read(homeUrlStartAddr + i);
-  }
+  EEPROM.get(homeUrlStartAddr, homeUrl);
   if (homeUrl[0] == 0) {
-    strcpy(homeUrl, "index.html");
+    strcpy(homeUrl, "/index.html");
   }
   return homeUrl;
 }
 
 // 是否打开缓存
-boolean isCache() {
+bool isCache() {
   uint8_t v = EEPROM.read(changeAddr);
   return v != 0;
 }
 
 // 是IP吗
-boolean isIp(String str) {
+bool isIp(String str) {
   for (size_t i = 0; i < str.length(); i++) {
     int c = str.charAt(i);
     if (c != '.' && (c < '0' || c > '9')) {
@@ -92,14 +90,32 @@ String ip2String(IPAddress ip) {
 }
 
 // 如果我们收到另一个域的请求，重定向到专属门户。在这种情况下返回true，这样页面处理程序就不会再次尝试处理请求。
-boolean captivePortal() {
+bool captivePortal() {
   if (!isIp(webServer.hostHeader()) && webServer.hostHeader() != (String(myHostname) + ".local")) {
-    Serial.println("请求重定向到 captive portal");
+    Serial.println(webServer.uri() + "重定向到 captive portal");
     webServer.sendHeader("Location", String("http://") + ip2String(webServer.client().localIP()), true);
     replyServerCode(302);
     return true;
   }
   return false;
+}
+
+// 格式化fs
+bool clearFS() {
+  dir = SPIFFS.openDir("");
+  while (dir.next()) {
+    if (!SPIFFS.remove(dir.fileName())) {
+      return false;
+    }
+  }
+  return true;
+//  SPIFFS.end();
+//  bool isOk = SPIFFS.format();
+//  if (!isOk) {
+//    return false;
+//  }
+//  isOk = SPIFFS.begin();
+//  return isOk;
 }
 
 // led类型
@@ -142,4 +158,29 @@ void ledLight(uint8_t type) {
       digitalWrite(L2, HIGH);
       break;
   }
+}
+
+//连接Wi-Fi
+void connectWifi() {
+  Serial.println("Connecting as wifi client...");
+  WiFi.disconnect();
+  WiFi.begin(ssid, password);
+  int connRes = WiFi.waitForConnectResult();
+  Serial.print("connRes: ");
+  Serial.println(connRes);
+}
+
+//保存ssid和密码
+void saveWifi() {
+  EEPROM.put(ssidAddr, ssid);
+  EEPROM.commit();
+  EEPROM.put(pwdAddr, password);
+  EEPROM.commit();
+}
+
+//获取EEPROM中的数据
+void getEEPROM() {
+  EEPROM.get(ssidAddr, ssid);
+  EEPROM.get(pwdAddr, password);
+  progress = EEPROM.read(progressAddr);
 }

@@ -18,9 +18,6 @@ void handleNotFound() {
     return;
   }
   String path = webServer.uri();
-  if (path.charAt(0) == '/') {
-    path = path.substring(1, path.length());
-  }
   replyFile(path);
 }
 
@@ -34,8 +31,7 @@ void handleGetInfo() {
   maxPathLength = fs_info.maxPathLength;
 
   String json;
-  json.reserve(512);
-
+  json.reserve(1024);
   json = "{\"totalBytes\":";
   json += fs_info.totalBytes;
   json += ",\"usedBytes\":";
@@ -43,6 +39,15 @@ void handleGetInfo() {
   json += ",\"maxPathLength\":";
   json += maxPathLength;
   json += ",\"fList\":[";
+
+  Serial.print("blockSize:");
+  Serial.println(fs_info.blockSize);
+  Serial.print("pageSize:");
+  Serial.println(fs_info.pageSize);
+  Serial.print("totalBytes:");
+  Serial.println(fs_info.totalBytes);
+  Serial.print("usedBytes:");
+  Serial.println(fs_info.usedBytes);
 
   dir = SPIFFS.openDir("");
   bool isFirst = true;
@@ -59,7 +64,7 @@ void handleGetInfo() {
     json += "}";
   }
   json += "]}";
-  webServer.send(200, "application/json", json);
+  webServer.send(200, APP_JSON, json);
 }
 
 // 上传文件
@@ -76,7 +81,7 @@ void handleFileUpload() {
         String filename = upload.filename;
         fsPointion = filename.indexOf("/");
         if (fsPointion != -1) {
-          filename =  filename.substring(fsPointion + 1, filename.length());
+          filename =  filename.substring(fsPointion, filename.length());
         }
         if (filename.length() > maxPathLength) {
           replyServerError("路径长度不能大于" + String(maxPathLength) + "字节！");
@@ -133,16 +138,28 @@ void handleFileUploadAfter() {
   webServer.send(200, FPSTR(TEXT_PLAIN), "上传成功！");
 }
 
-// 格式化
-void handleErase() {
-  dir = SPIFFS.openDir("");
-  while (dir.next()) {
-    if (!SPIFFS.remove(dir.fileName())) {
-      webServer.send(500, FPSTR(TEXT_PLAIN), "0");
-      return;
+// 指令集
+void handleIS() {
+  ticker.detach();
+  
+  int v = webServer.arg("v").toInt();
+  switch(v) {
+    case 0: { // 格式化SPIFFS
+      if(clearFS()) {
+        webServer.send(200, FPSTR(TEXT_PLAIN), "1");
+      } else {
+        webServer.send(500, FPSTR(TEXT_PLAIN), "0");
+      }
+      break;
+    }
+    case 1: { // 清除EEPROM
+      for (int i = 0; i < eepromSize; i++) {
+        EEPROM.write(i, 0);
+      }
+      EEPROM.end();
+      EEPROM.begin(eepromSize);
     }
   }
-  webServer.send(200, FPSTR(TEXT_PLAIN), "1");
 }
 
 // led操作
@@ -173,7 +190,7 @@ void handleLed() {
 // 获取配置信息
 void handleConfig() {
   String json;
-  json.reserve(129);
+  json.reserve(76);
   json = "{\"channel\":";
   json += getChangeAp();
   json += ",\"homeUrl\":\"";
@@ -181,7 +198,7 @@ void handleConfig() {
   json += "\",\"cache\":";
   json += isCache();
   json += "}";
-  webServer.send(200, "application/json", json);
+  webServer.send(200, APP_JSON, json);
 }
 
 // 设置配置
@@ -202,9 +219,7 @@ void handlePutConfig() {
   Serial.println("homeUrl: " + v);
   if (!v.isEmpty()) {
     v.toCharArray(homeUrl, sizeof(homeUrl));
-    for (i = 0; i < sizeof(homeUrl); i++) {
-      EEPROM.write(homeUrlStartAddr + i, homeUrl[i]);
-    }
+    EEPROM.put(homeUrlStartAddr, homeUrl);
     EEPROM.commit();
   }
   
@@ -216,5 +231,125 @@ void handlePutConfig() {
     EEPROM.commit();
   }  
   
+  replyServerCode(200);
+}
+
+// 返回 Wi-Fi 扫描结果
+void handleWifiscan() {
+  ticker.detach();
+
+  Serial.println("scan start");
+  int n = WiFi.scanNetworks();
+  Serial.println("scan done");
+
+  String json;
+  json.reserve(1024);
+  json += "[";
+  for (int i = 0; i < n; i++) {
+    if (i != 0) {
+      json += ",";
+    }
+    json += "{\"ssid\":\"";
+    json += WiFi.SSID(i);
+//    json += "\",\"mac\":\"";
+//    json += WiFi.BSSIDstr(i);
+    json += "\",\"rssi\":";
+    json += WiFi.RSSI(i);
+    json += "}";
+  }
+  json += "]";
+  webServer.send(200, APP_JSON, json);
+}
+
+// 连接 Wi-Fi
+void handleWificonn() {
+  ticker.detach();
+
+  String v = webServer.arg("st"); 
+  if (v == "1") {
+    webServer.send(200, FPSTR(TEXT_PLAIN), String(status));
+    return;
+  }
+
+  v = webServer.arg("s");
+  Serial.println("conn to " + v);
+  if (!v.isEmpty()) {
+    v.toCharArray(ssid, sizeof(ssid));
+  }
+  v = webServer.arg("p");
+  if (!v.isEmpty()) {
+    v.toCharArray(password, sizeof(password));
+  }
+  saveWifi();
+
+  status = WL_IDLE_STATUS;
+  connect = true;
+  replyServerCode(200);
+}
+
+// 返回 Wi-Fi 配置信息
+void handleWificonf() {
+  ticker.detach();
+
+  getEEPROM();
+  String json;
+  json.reserve(128);
+  json += "{\"ssid\":\"";
+  json += ssid;
+  json += "\",\"pwd\":\"";
+  json += password;
+  json += "\",\"ip\":\"";
+//  json += (!connect && strlen(ssid) > 0) ? true : false;
+  if (status == 3) {
+    json += WiFi.localIP().toString();
+  }
+  json += "\"}";
+  webServer.send(200, APP_JSON, json);
+}
+
+// 返回版本
+
+void handleVersion() {
+  ticker.detach();
+
+  String json;
+  json.reserve(32);
+  json += "{\"ver\":";
+  json += ver;
+  json += ",\"wver\":\"";
+//  json += "200914";
+  String p = "/v.txt";
+  if (SPIFFS.exists(p)) {
+    file = SPIFFS.open(p, "r");
+    if (file) {
+      file.readBytes(wver, 6);
+      json += wver;
+    }
+  }
+  json += "\"}";
+  webServer.send(200, APP_JSON, json);
+}
+
+// 返回最新版本
+void handleNVersion() {
+  ticker.detach();
+
+  HTTPClient http;
+  if (http.begin(client, "http://kukela-bin.oss-cn-shanghai.aliyuncs.com/mybc/ver.json")) {
+    int httpCode = http.GET();
+    if (httpCode > 0) {
+      Serial.printf("[HTTP] GET... code: %d\n", httpCode);
+      if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY) {
+        webServer.send(200, APP_JSON, http.getString());
+      }
+    } else {
+      Serial.printf("[HTTP] GET... failed, error: %s\n", http.errorToString(httpCode).c_str());
+      replyServerCode(500);
+    }
+    http.end();
+  } else {
+    Serial.printf("[HTTP} Unable to connect\n");
+    replyServerCode(500);
+  }
   replyServerCode(200);
 }

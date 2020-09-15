@@ -1,6 +1,7 @@
 body {
 	padding: 0;
-	margin: 0;
+	max-width: 800px;
+	margin: 0 auto;
 	color: #303133;
 }
 
@@ -31,16 +32,17 @@ body {
 }
 
 .t2 {
-	height: 30px;
+	min-height: 30px;
 	margin-top: 10px;
 }
 
 .t2.c {
-	height: 50px;
+	min-height: 50px;
 }
 
 .t2>.t {
 	font-size: 16px;
+	line-height: 24px;
 	color: #303133;
 	flex: 1;
 }
@@ -60,28 +62,38 @@ body {
 	border: 1px solid #e4e7ed;
 }
 
-.rbtn {
-	cursor: pointer;
-	overflow: hidden;
-	display: inline-block;
-	text-decoration: none;
-	margin-left: 10px;
+.dc.pt1 {
+	margin-top: 20px;
 }
 
-.rbtn:hover {
+.rbtn {
+	margin-left: 10px;
+	min-width: 78px;
+}
+
+.dc:hover:not([disabled]) {
 	background: #e4e7ed;
 	border-color: #ccc;
 	text-decoration: none;
 }
 
-.rbtn input {
+button[disabled] {
+	color: #909399;
+}
+
+.rl {
+	overflow: hidden;
+	text-decoration: none;
+	cursor: pointer;
+	display: block;
+}
+
+input[type=file] {
 	position: absolute;
-	font-size: 100px;
-	right: 0;
-	top: 0;
+	width: 0;
 	opacity: 0;
+	display: inline-block;
 	filter: alpha(opacity=0);
-	cursor: pointer
 }
 
 .item {
@@ -89,6 +101,10 @@ body {
 	display: flex;
 	min-height: 30px;
 	margin: 10px 20px 0 20px;
+}
+
+.item.v {
+	flex-direction: column;
 }
 
 .item>div {
@@ -100,6 +116,12 @@ body {
 .item>select,
 .item>input {
 	flex: 1;
+}
+
+.item .info {
+	font-size: 14px;
+	color: #606266;
+	line-height: 22px;
 }
 
 table {
