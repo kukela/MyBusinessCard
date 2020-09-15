@@ -71,8 +71,7 @@ void setup()
   webServer.on("/progress", HTTP_GET, handleProgress); //获取进度
   webServer.begin();
 
-  digitalWrite(L1, LOW);
-  digitalWrite(L2, LOW);
+  ledLight(0);
 
   if (!SPIFFS.begin()) {
     Serial.println("fs begin error");

@@ -91,7 +91,8 @@ String ip2String(IPAddress ip) {
 
 // 如果我们收到另一个域的请求，重定向到专属门户。在这种情况下返回true，这样页面处理程序就不会再次尝试处理请求。
 bool captivePortal() {
-  if (!isIp(webServer.hostHeader()) && webServer.hostHeader() != (String(myHostname) + ".local")) {
+  String hh = webServer.hostHeader();
+  if (!isIp(hh) && hh != (String(myHostname) + ".local") && hh != (String(myHostname) + ".com") ) {
     Serial.println(webServer.uri() + "重定向到 captive portal");
     webServer.sendHeader("Location", String("http://") + ip2String(webServer.client().localIP()), true);
     replyServerCode(302);

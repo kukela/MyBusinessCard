@@ -1,5 +1,3 @@
-var httpRequest = new XMLHttpRequest();
-
 var jt = getDomById("jt");
 jt.innerText = "JSTest";
 var led1 = getDomById("led1");
@@ -37,8 +35,9 @@ function mClick(e) {
 	type[0] = led1.checked == true ? 1 : 0;
 	type[1] = led2.checked == true ? 1 : 0;
 	type[2] = wl.checked == true ? 1 : 0;
+	console.log(type.join(""));
 	requestGet("/led?type=" + type.join(""), function() {
-		if (httpRequest.readyState != 4 || httpRequest.status != 200) {
+		if (this.readyState != 4 || this.status != 200) {
 			return;
 		}
 	});
@@ -46,17 +45,17 @@ function mClick(e) {
 
 function cChnage() {
 	requestGet("/putConfig?c=" + channel.value, function() {
-		if (httpRequest.readyState != 4 || httpRequest.status != 200) {
+		if (this.readyState != 4 || this.status != 200) {
 			return;
 		}
 	});
 }
 
 requestGet("/config", function() {
-	if (httpRequest.readyState != 4 || httpRequest.status != 200) {
+	if (this.readyState != 4 || this.status != 200) {
 		return;
 	}
-	var jsonStr = httpRequest.responseText;
+	var jsonStr = this.responseText;
 	var json = JSON.parse(jsonStr);
 
 	channel.value = json["channel"];
@@ -64,6 +63,8 @@ requestGet("/config", function() {
 
 //get请求
 function requestGet(url, f) {
+	var httpRequest = new XMLHttpRequest();
+	url = "http://hello.local" + url;
 	httpRequest.open("GET", url, true);
 	httpRequest.onreadystatechange = f
 	httpRequest.send();

@@ -1,1 +1,1 @@
-mkspiffs -c ./dist -b 8192 -p 256 -s 319488 spiffs.bin
+mkspiffs -c ../../web/MyBC_admin/test -b 8192 -p 256 -s 319488 spiffs.bin

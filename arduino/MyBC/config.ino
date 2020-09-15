@@ -35,5 +35,5 @@ static uint8_t pwdAddr = 66;
 
 // 更新相关
 uint16_t ver = 1000;
-char wver[6];
+char wver[7] = "";
 static uint8_t progressAddr = 131;
