@@ -3,7 +3,8 @@
 PCB去嘉立创打样5块钱5个，ESP8266EX在淘宝4块钱就能买到，名片物料成本在10块钱左右。<br>
 外观参考了国外大神 George Hilliard 的设计。<br>
 ![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/js1.jpg?x-oss-process=image/resize,m_lfit,w_680)<br>
-![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/js2.jpg?x-oss-process=image/resize,m_lfit,w_226)![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/js3.jpg?x-oss-process=image/resize,m_lfit,w_226)![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/js4.jpg?x-oss-process=image/resize,m_lfit,w_226)
+![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/js2.jpg?x-oss-process=image/resize,m_lfit,w_226)![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/js3.jpg?x-oss-process=image/resize,m_lfit,w_226)![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/js4.jpg?x-oss-process=image/resize,m_lfit,w_226)<br>
+![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/g1.png?x-oss-process=image/resize,m_lfit,w_680)<br>
 
 ### 2. 开发工具
 IDE用的是Arduino。<br>
@@ -13,10 +14,11 @@ IDE用的是Arduino。<br>
 ![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/zk1.png?x-oss-process=image/resize,m_lfit,w_640)<br>
 ![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/zk2.png?x-oss-process=image/resize,m_lfit,w_640)<br>
 USB小零件使用SketchUP制作。<br>
-![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/b.jpg?x-oss-process=image/resize,m_lfit,w_680)
+![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/b.jpg?x-oss-process=image/resize,m_lfit,w_680)<br>
 admin页面使用了NPM，Gulp。在命令行输入`gulp`可以把admin页面编译到build/admin.html里面，并且压缩成一行。<br>
 升级更新相关文件存放在阿里云oss<br>
 ![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/up1.png?x-oss-process=image/resize,m_lfit,w_680)<br>
+打包spiffs工具在tool目录里面<br>
 
 ### 3. 准备
 1. 建议去淘宝买一个ESP LINK，可以很方便的调试。<br>

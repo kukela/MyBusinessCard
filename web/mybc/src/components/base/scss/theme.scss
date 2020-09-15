@@ -1,0 +1,99 @@
+$page-bg: #f8f8f8;
+
+//主色
+$brand-color: #409eff;
+$brand-color-1: #53a8ff;
+$brand-color-2: #66b1ff;
+$brand-color-3: #79bbff;
+$brand-color-4: #8cc5ff;
+$brand-color-5: #a0cfff;
+$brand-color-6: #b3d8ff;
+$brand-color-7: #c6e2ff;
+$brand-color-8: #d9ecff;
+$brand-color-9: #ecf5ff;
+$brand-shadow-color: rgba(112, 133, 155, 0.3);
+
+//辅助色
+$success-color: #67c23a;
+$success-color-1: #e1f3d8;
+$success-color-2: #f0f9eb;
+$warning-color: #e6a23c;
+$warning-color-1: #faecd8;
+$warning-color-2: #fdf6ec;
+$danger-color: #f56c6c;
+$danger-color-1: #fde2e2;
+$danger-color-2: #fef0f0;
+$info-color: #909399;
+$info-color-1: #e9e9eb;
+$info-color-2: #f4f4f5;
+
+//文字
+$text-main-color: #303133;
+$text-routine-color: #606266;
+$text-sub-color: #909399;
+$placeholder-color: #c0c4cc;
+
+//边框
+$border-color-1: #dcdfe6;
+$border-color-2: #e4e7ed;
+$border-color-3: #ebeef5;
+$border-color-4: #f2f6fc;
+
+//基础色
+$black: #000000;
+$white: #ffffff;
+
+//按钮动画
+@mixin tap-mixin {
+	@keyframes tapType-bgg {
+		50% {
+			background-color: #dadada;
+		}
+	}
+	@keyframes tapType-b6 {
+		50% {
+			-webkit-filter: brightness(0.6);
+			filter: brightness(0.6);
+		}
+	}
+	@keyframes tapType-b8 {
+		50% {
+			-webkit-filter: brightness(0.8);
+			filter: brightness(0.8);
+		}
+	}
+	@keyframes tapType-o8 {
+		50% {
+			opacity: 0.8;
+		}
+	}
+	@keyframes tapType-o3 {
+		50% {
+			opacity: 0.3;
+		}
+	}
+}
+
+//ul
+@mixin ul-mixin {
+	ul {
+		margin: 0;
+		padding: 0;
+		background: transparent;
+		&:after {
+			height: 0;
+		}
+		&:before {
+			height: 0;
+		}
+		&:first-child {
+			margin-top: 0;
+		}
+		&.last-child {
+			margin-bottom: 0;
+		}
+	}
+	li {
+		list-style: none;
+	}
+}

@@ -1,0 +1,66 @@
+@import '../../base/scss/base.scss';
+
+.content {
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+img {
+	border: none;
+	background-color: white;
+}
+
+.item {
+	padding: 15px;
+	height: auto;
+	
+	h1 {
+		margin: 0;
+		font-size: 28px;
+		line-height: 48px;
+		color: $text-main-color;
+	}
+	
+	.info {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		font-size: 14px;
+		line-height: 20px;
+		color: $text-routine-color;
+	}
+	
+	>.info {
+		margin-top: 10px;
+	}
+	
+	form {
+		display: flex;
+		align-items: center;
+		
+		input {
+			height: 44px;
+			width: 16px;
+			margin: 0 8px;
+		}
+	}
+}
+
+.btn {
+	height: 44px;
+	border: 1px solid #e4e7ed;
+	border-radius: 4px;
+	background: white;
+	font-size: 16px;
+	line-height: 18px;
+	margin: 10px 0;
+}
+
+.btn:hover {
+	background: #e4e7ed;
+	border-color: #ccc;
+	text-decoration: none;
+}
+
+.footer {
+	height: 55px;
+}

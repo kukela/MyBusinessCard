@@ -1,0 +1,78 @@
+@import '../../global/scss/global.scss';
+
+.head {
+	height: 80px;
+	margin-top: 15px;
+	display: flex;
+
+	img {
+		width: 80px;
+		height: 80px;
+		border-radius: 40px;
+	}
+
+	>div {
+		margin-left: 20px;
+		height: 100%;
+		width: 100px;
+		flex: 1;
+		font-size: 0;
+		line-height: 0;
+		.info {
+			line-height: 32px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+}
+
+#update-btn {
+	width: 100%;
+}
+
+.p-item {
+	height: 118px;
+	padding: 5px 15px;
+	display: flex;
+	margin: 0 -15px;
+
+	.icon {
+		height: 100%;
+		width: 118px;
+	}
+	
+	>div {
+		height: 100%;
+		flex: 1;
+		margin-left: 10px;
+	}
+	
+	.more {
+		width: 8px;
+		height: 14px;
+		margin: auto 8px;
+		background-color: transparent;
+	}
+	
+	.title {
+		font-size: 16px;
+		line-height: 30px;
+		color: $text-main-color;
+	}
+	
+	.info {
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		white-space: pre-wrap;
+	}
+	
+	.date {
+		margin-top: 8px;
+	}
+}
+
+.p-item:hover {
+	background: #e4e7ed;
+}

@@ -2,7 +2,7 @@
 function requestGet(url, f) {
 	var httpRequest = new XMLHttpRequest();
 	httpRequest.timeout = 10000;
-	url = "http://hello.local" + url;
+	// url = "http://hello.local" + url;
 	httpRequest.open("GET", url, true);
 	httpRequest.onreadystatechange = f
 	httpRequest.send();

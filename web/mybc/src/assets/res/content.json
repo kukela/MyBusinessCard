@@ -1,0 +1,28 @@
+{
+	"name": "齐乾",
+	"icon": "/img/tx.jpg",
+	"info": "生日：1996年5月，安徽芜湖人。",
+	"ir": "&emsp;&emsp;从事软件开发多年，会各种编程语言，前端、后端、混合、游戏，基本都能独立开发。<br>&emsp;&emsp;如今开始专门研究创意和技术，并且创造出的产品、技术和经验都会开源，我的目标就是通过一点点的积累改变世界。",
+	"projects": [{
+			"title": "Wi-Fi名片",
+			"icon": "/img/mybc/i.jpg",
+			"info": "手机或电脑连接上Wi-Fi后会自动打开浏览器，展示名片内容。",
+			"date": "2020.4 ~ 2020.9",
+			"img": ["/img/mybc/js1.jpg", "/img/mybc/js2.png", "/img/mybc/js3.png", "/img/mybc/js4.png"]
+		},
+		{
+			"title": "可水洗口罩",
+			"icon": "/img/kz/i.jpg",
+			"info": "适配远大移动肺宝，用于解决魔力贴失效，以及口罩太贵的问题。口罩全身可水洗，理论可以永久使用。",
+			"date": "2020.4 ~ 2020.7",
+			"img": ["/img/kz/js1.jpg", "/img/kz/js2.jpg", "/img/kz/js3.jpg", "/img/kz/js4.jpg"]
+		},
+		{
+			"title": "桌面空气净化器",
+			"icon": "/img/zmjh/i.jpg",
+			"info": "本项目用于解决桌面个人空气净化问题。",
+			"date": "2019.12 ~ 2020.3",
+			"img": ["/img/zmjh/js1.jpg", "/img/zmjh/js2.jpg", "/img/zmjh/js3.png"]
+		}
+	]
+}
