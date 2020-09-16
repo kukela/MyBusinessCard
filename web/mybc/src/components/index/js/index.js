@@ -3,6 +3,7 @@ export default {
 	props: {},
 	data() {
 		return {
+			isUpBtn: true,
 			ud: {},
 			led: {
 				led1: false,
@@ -17,6 +18,9 @@ export default {
 	methods: {
 		showInfo(json) {
 			this.ud = json;
+		},
+		upBtnClick() {
+			window.location.href="/admin";
 		},
 		pItemClick(index) {
 			this.$router.push({
