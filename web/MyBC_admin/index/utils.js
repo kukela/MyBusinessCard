@@ -106,10 +106,10 @@ function refreshUpBtns() {
 	disDom(vup, isDis);
 	disDom(wup, isDis);
 	if (isDis) return;
-	if (ver == nver) {
+	if (nver != null && ver == nver) {
 		disDom(vup, true);
 	}
-	if (wver == nwver) {
+	if (nwver != null && wver == nwver) {
 		disDom(wup, true);
 	}
 }
@@ -143,4 +143,8 @@ function UpBtnType(v, bt, d) {
 
 function defSetTimeout(bc) {
 	setTimeout(bc, 1000);
+}
+
+function wlReload() {
+	window.location.reload();
 }

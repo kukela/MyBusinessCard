@@ -64,7 +64,7 @@ requestGet("/config", function() {
 //get请求
 function requestGet(url, f) {
 	var httpRequest = new XMLHttpRequest();
-	url = "http://hello.local" + url;
+	// url = "http://hello.local" + url;
 	httpRequest.open("GET", url, true);
 	httpRequest.onreadystatechange = f
 	httpRequest.send();

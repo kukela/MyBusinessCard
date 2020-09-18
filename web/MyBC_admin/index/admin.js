@@ -65,13 +65,17 @@ function reqWificonf() {
 		var json = req2Json(this);
 		ssid.value = ssidV = json.ssid;
 		pwd.value = json.pwd;
+		if (ssidV.length == 0 || pwd.value.length == 0) {
+			WCBtnReset();
+			return;
+		}
 		if (json.ip.length > 0) {
-			WCBtnType(3);
 			setWifiConnBtn(true);
 			hip.setAttribute("href", 'http://' + json.ip);
 			hip.innerHTML = json.ip;
+			WCBtnType(3);
+			reqNVersion();
 		} else {
-			if (ssidV.length == 0) return;
 			WCBtnType(2);
 			setWifiConnBtn(false);
 		}
@@ -119,12 +123,16 @@ function reqVersion() {
 		wver = json.wver;
 		refreshVersion();
 	});
+}
+
+function reqNVersion() {
 	requestGet("/nVersion", function() {
 		if (isReqError(this)) return;
 		var json = req2Json(this);
 		nver = json.nv;
 		nwver = json.nw;
 		refreshVersion();
+		refreshUpBtns();
 	});
 }
 
@@ -158,7 +166,7 @@ function reqProgress(t) {
 			if (v == "100") {
 				UpBtnType(3, t);
 				disUpdateDoms(false);
-				location.reload();
+				wlReload();
 				return;
 			} else if (v == "255") {
 				UpBtnType(2, t);
@@ -208,7 +216,9 @@ function putConfig(v) {
 
 // 重置所有配置
 function resetConf() {
-	requestGet("/is?v=1");
+	requestGet("/is?v=1", function() {
+		wlReload();
+	});
 }
 
 //获取文件数据
@@ -295,7 +305,7 @@ function reload() {
 	var doc = mf.contentDocument || mf.contentWindow.document;
 	var mfb = doc.getElementsByTagName("body")[0];
 	if (mfb.innerHTML.toString().indexOf("成功") != -1) {
-		window.location.reload();
+		wlReload();
 		showState("上传成功...");
 		return;
 	}

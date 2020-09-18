@@ -158,6 +158,7 @@ void handleIS() {
       }
       EEPROM.end();
       EEPROM.begin(eepromSize);
+      replyServerCode(200);
     }
   }
 }

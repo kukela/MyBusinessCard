@@ -17,7 +17,7 @@ USB小零件使用SketchUP制作。<br>
 ![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/b.jpg?x-oss-process=image/resize,m_lfit,w_680)<br>
 admin页面使用了NPM，Gulp。在命令行输入`gulp`可以把admin页面编译到build/admin.html里面，并且压缩成一行。<br>
 升级更新相关文件存放在阿里云oss<br>
-![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/up1.png?x-oss-process=image/resize,m_lfit,w_680)<br>
+![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/up1.png?x-oss-process=image/resize,m_lfit,w_516)<br>
 打包spiffs工具在tool目录里面<br>
 
 ### 3. 准备
