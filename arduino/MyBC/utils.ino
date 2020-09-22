@@ -1,21 +1,3 @@
-// 返回文件
-void replyFile(String path) {
-  String contentType = mime::getContentType(path);
-  Serial.println(path + " - " + contentType);
-  
-  if (!SPIFFS.exists(path)) {
-    replyServerCode(204);
-    return;
-  }
-  file = SPIFFS.open(path, "r");
-  configSendHeader();
-  if (webServer.streamFile(file, contentType) != file.size()) {
-    Serial.println("File Not Found " + path);
-    webServer.send(404, FPSTR(TEXT_PLAIN), "File Not Found: " + path);
-  }
-  file.close();
-}
-
 //配置请求头
 void configSendHeader() {
   if (isCache()) {
@@ -35,22 +17,6 @@ void replyServerCode(int code) {
   // 空内容会禁止Content-length标头，所以需要停止，因为我们没有发送内容长度
   webServer.send(code);
   webServer.client().stop();
-}
-
-// 设置信道
-void setChangeAP() {  
-  uint8_t v = getChangeAp();
-  Serial.println("channel: " + String(v));
-  WiFi.softAP(MSSID, MPSK, v);
-}
-
-// 获取信道
-uint8_t getChangeAp() {
-  uint8_t v = EEPROM.read(channelAddr);
-  if (v < 1 || v > 14) {
-    v = 7;
-  }
-  return v;
 }
 
 // 获取首页地址
@@ -99,84 +65,6 @@ bool captivePortal() {
     return true;
   }
   return false;
-}
-
-// 格式化fs
-bool clearFS() {
-  dir = SPIFFS.openDir("");
-  while (dir.next()) {
-    if (!SPIFFS.remove(dir.fileName())) {
-      return false;
-    }
-  }
-  return true;
-//  SPIFFS.end();
-//  bool isOk = SPIFFS.format();
-//  if (!isOk) {
-//    return false;
-//  }
-//  isOk = SPIFFS.begin();
-//  return isOk;
-}
-
-// led类型
-void ledLightType() {
-  tickerIndex++;
-  if (isWLLed && tickerIndex == 1) {
-    tickerIndex++;
-  }
-  switch (tickerIndex) {
-    case 1:
-      ledLight(0);
-      break;
-    case 2:
-      if (isLightLed1) {
-        ledLight(1);
-      }
-      break;
-    case 3:
-      if (isLightLed2) {
-        ledLight(2);
-      }
-      tickerIndex = 0;
-      break;
-  }
-}
-
-// led操作
-void ledLight(uint8_t type) {
-  switch (type) {
-    case 0:
-      digitalWrite(L1, LOW);
-      digitalWrite(L2, LOW);
-      break;
-    case 1:
-      digitalWrite(L1, HIGH);
-      digitalWrite(L2, LOW);
-      break;
-    case 2:
-      digitalWrite(L1, LOW);
-      digitalWrite(L2, HIGH);
-      break;
-  }
-}
-
-//连接Wi-Fi
-void connectWifi() {
-  Serial.println("Connecting as wifi client...");
-  WiFi.disconnect();
-  WiFi.begin(ssid, password);
-  int connRes = WiFi.waitForConnectResult();
-  Serial.print("connRes: ");
-  Serial.println(connRes);
-}
-
-//保存ssid和密码
-void saveWifi() {
-  EEPROM.put(ssidAddr, ssid);
-  EEPROM.commit();
-  EEPROM.put(pwdAddr, password);
-  EEPROM.commit();
 }
 
 //获取EEPROM中的数据

@@ -28,7 +28,7 @@
 		<div class="item v">
 			<div class="info">当设备在同一局域网内，可以通过 <a href="http://hello.local">hello.local</a> 访问（安卓手机不支持），或者内网IP地址 <a id="hip"></a>
 				访问，效果和直接连名片Wi-Fi是一样的。</div>
-			<button id="wificonn" class="dc pt1" onclick="connSsid()"></button>
+			<button id="wificonn" class="dc pt1" onclick="reqConnSsid()"></button>
 		</div>
 		<div class="t1 jj">
 			<h1>更新</h1>
@@ -85,7 +85,7 @@
 		<div class="t1 jj">
 			<h1>文件管理</h1>
 			<form id="fileForm" method="POST" action="/update" enctype="multipart/form-data" target="mf">
-				<label class="dc rl" for="file">覆盖上传</label>
+				<label id="fdl" class="dc rl" for="file">覆盖上传</label>
 				<input id="file" type="file" name="file" onchange="fileInputChange()" webkitdirectory multiple />
 			</form>
 			<iframe id="mf" name="mf" style="display:none;"></iframe>

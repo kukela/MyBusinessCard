@@ -73,13 +73,16 @@ function WCBtnType(v) {
 	refreshUpBtns();
 }
 
-// 重置连接按钮
-function WCBtnReset() {
-	setWifiConnBtn(false);
+// 重置按钮
+function btnReset() {
+	disWifiConnBtn(false);
 	WCBtnType(0);
+	UpBtnType(0, 0);
+	UpBtnType(0, 1);
 }
 
-function setWifiConnBtn(isDis) {
+//是否冻结连接Wi-Fi按钮
+function disWifiConnBtn(isDis) {
 	disDom(wificonn, isDis);
 }
 
@@ -94,7 +97,7 @@ function disDom(dom, isDis) {
 
 // 冻结升级相关控件
 function disUpdateDoms(isDis) {
-	var ls = [ssid, pwd, scan, vup, wup];
+	var ls = [ssid, pwd, scan, vup, wup, channel, fd, fdl];
 	for (var i = 0; i < ls.length; i++) {
 		disDom(ls[i], isDis);
 	}
@@ -117,21 +120,27 @@ function refreshUpBtns() {
 // 升级状态
 function UpBtnType(v, bt, d) {
 	var s = "";
+	if (bt == 0) {
+		s = "升级";
+	} else {
+		s = "更新";
+	}
 	switch (v) {
 		case 1:
-			s = "升级中...";
+			s += "中...";
 			break;
 		case 2:
-			s = "升级失败";
+			s += "失败";
 			break;
 		case 3:
-			s = "升级成功";
+			s += "成功";
 			break;
 		case 4:
 			s = d + "%";
 			break;
 		default:
-			s = bt == 0 ? "固件升级" : "网站更新";
+			var t = bt == 0 ? "固件" : "网站";
+			s = t + s;
 			break;
 	}
 	if (bt == 0) {
@@ -141,10 +150,12 @@ function UpBtnType(v, bt, d) {
 	}
 }
 
+//延时操作
 function defSetTimeout(bc) {
 	setTimeout(bc, 1000);
 }
 
+//刷新网页
 function wlReload() {
 	window.location.reload();
 }

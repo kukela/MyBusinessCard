@@ -5,7 +5,9 @@ var led2 = getDomById("led2");
 var wl = getDomById("wl");
 var off = getDomById("off");
 var channel = getDomById("channel");
+var img = getDomById("img");
 var ti = new Date().getTime();
+img.src = "./img/x4.jpg";
 
 window.onload = function() {
 	var t = new Date().getTime() - ti;

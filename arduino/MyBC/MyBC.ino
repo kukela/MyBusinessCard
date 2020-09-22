@@ -7,28 +7,7 @@
 #include <FS.h>
 #include <Ticker.h>
 #include <EEPROM.h>
-
-// 引脚地址
-#define L1 4
-#define L2 5
-
-// EEPROM
-unsigned int eepromSize = 66 + 65 + 1;
-
-// 网络相关
-IPAddress apIP(192, 168, 1, 1);
-DNSServer dnsServer;
-static const byte DNS_PORT = 53;
-ESP8266WebServer webServer(80);
-const char *myHostname = "hello";
-WiFiClient client;
-
-// Wi-Fi相关
-char ssid[33] = "";
-char password[65] = "";
-bool connect = false;
-unsigned long lastConnectTry = 0;
-unsigned int status = WL_IDLE_STATUS;
+#include "config.h"
 
 void setup()
 {
@@ -56,7 +35,7 @@ void setup()
   webServer.on("/fwlink", handleRoot);
   webServer.on("/admin", HTTP_GET, handleAdmin);
   webServer.onNotFound(handleNotFound);
-  webServer.on("/info", HTTP_GET, handleGetInfo); // 文件信息
+  webServer.on("/info", HTTP_GET, handleGetFSInfo); // 文件信息
   webServer.on("/update", HTTP_POST, handleFileUploadAfter, handleFileUpload); // 上传文件
   webServer.on("/is", HTTP_GET, handleIS); // 指令集
   webServer.on("/led", HTTP_GET, handleLed); // led操作

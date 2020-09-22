@@ -14,6 +14,7 @@ PCB去嘉立创打样5块钱5个，ESP8266EX在淘宝4块钱就能买到，名�
 <a href="https://www.bilibili.com/video/BV18K411P7Zs/" target="_blank">项目介绍</a><br>
 <a href="https://www.bilibili.com/video/BV1G54y11733/" target="_blank">功能演示 性能测试 制作过程</a><br>
 <a href="https://www.bilibili.com/video/BV1wK4y1Y7S2/" target="_blank">心得体会</a><br>
+<a href="https://www.youtube.com/watch?v=RA2ZFGR8FDk" target="_blank">YouTube</a><br>
 
 #### 1.4. 图片展示
 ![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/js1.jpg?x-oss-process=image/resize,m_lfit,w_680)<br>

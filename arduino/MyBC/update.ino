@@ -1,6 +1,3 @@
-uint8_t progress = 0;
-static const String update_host = "http://kukela-bin.oss-cn-shanghai.aliyuncs.com/mybc/";
-
 // 升级
 void handleUpdate() {
   ticker.detach();
@@ -44,6 +41,11 @@ void handleUpdate() {
     }
 }
 
+// 进度
+void handleProgress() {
+  webServer.send(200, FPSTR(TEXT_PLAIN), String(progress));
+}
+
 void update_started() {
   progress = 0;
   writeProgress();
@@ -68,11 +70,7 @@ void update_error(int err) {
   Serial.printf("CALLBACK:  HTTP update fatal error code %d\n", err);
 }
 
-// 进度
-void handleProgress() {
-  webServer.send(200, FPSTR(TEXT_PLAIN), String(progress));
-}
-
+//写入进度
 void writeProgress() {
   EEPROM.write(progressAddr, progress);
   EEPROM.commit();

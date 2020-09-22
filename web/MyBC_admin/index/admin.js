@@ -10,6 +10,8 @@ var wificonn = getDomById("wificonn");
 var hip = getDomById("hip");
 var vup = getDomById("vup");
 var wup = getDomById("wup");
+var fd = getDomById("file");
+var fdl = getDomById("fdl");
 
 var ssidV = "";
 var wifistate = "";
@@ -19,9 +21,7 @@ var ver = "",
 	wver = "",
 	nwver = "";
 
-WCBtnReset();
-UpBtnType(0, 0);
-UpBtnType(0, 1);
+btnReset();
 
 reqScanSsid();
 reqVersion();
@@ -30,7 +30,7 @@ reqInfo();
 
 // 刷新ssid
 function reqScanSsid(bc) {
-	setWifiConnBtn(true);
+	disWifiConnBtn(true);
 	ssid.innerHTML = "";
 	requestGet("/wifiscan", function() {
 		if (isReqError(this)) {
@@ -55,7 +55,7 @@ function refreshSsid(list) {
 	}
 	ssid.innerHTML = tStr;
 	ssid.value = ssidV;
-	setWifiConnBtn(false);
+	disWifiConnBtn(false);
 }
 
 // 获取wifi配置信息
@@ -70,22 +70,22 @@ function reqWificonf() {
 			return;
 		}
 		if (json.ip.length > 0) {
-			setWifiConnBtn(true);
+			disWifiConnBtn(true);
 			hip.setAttribute("href", 'http://' + json.ip);
 			hip.innerHTML = json.ip;
 			WCBtnType(3);
 			reqNVersion();
 		} else {
 			WCBtnType(2);
-			setWifiConnBtn(false);
+			disWifiConnBtn(false);
 		}
 	});
 }
 
 // 连接Wi-Fi
-function connSsid() {
+function reqConnSsid() {
 	WCBtnType(1);
-	setWifiConnBtn(true);
+	disWifiConnBtn(true);
 	var sv = ssid.value;
 	var pv = pwd.value;
 	var u = "/wificonn?s=" + sv + "&p=" + pv;
@@ -103,7 +103,7 @@ function reqWificonnSt() {
 			var s = this.responseText;
 			if (s == "4") {
 				WCBtnType(2);
-				setWifiConnBtn(false);
+				disWifiConnBtn(false);
 				return;
 			} else if (s == "3") {
 				reqWificonf();
@@ -157,7 +157,7 @@ function reqUpdate(t) {
 	});
 }
 
-// 检查更新状态
+// 更新进度
 function reqProgress(t) {
 	defSetTimeout(function() {
 		requestGet("/progress", function() {
@@ -196,21 +196,21 @@ function reqConfig() {
 
 // 修改信道
 function cChnage() {
-	putConfig("c=" + channel.value);
+	reqPutConfig("c=" + channel.value);
 }
 
 // 开启缓存
 function caChange() {
-	putConfig("ca=" + cache.checked);
+	reqPutConfig("ca=" + cache.checked);
 }
 
 // 修改首页地址
 function huChange() {
-	putConfig("hu=" + homeUrl.value);
+	reqPutConfig("hu=" + homeUrl.value);
 }
 
 // 修改配置
-function putConfig(v) {
+function reqPutConfig(v) {
 	requestGet("/putConfig?" + v, function() {});
 }
 
@@ -269,14 +269,17 @@ function refreshPage(json) {
 
 //文件按钮改变
 function fileInputChange() {
+	disUpdateDoms(true);
 	showState("正在格式化...");
 	requestGet("/is?v=0", function() {
 		if (isReqError(this)) {
 			showState("格式化错误...");
+			disUpdateDoms(false);
 			return;
 		}
+		disUpdateDoms(true);
+		disDom(fd, false);
 		showState("正在上传...");
-		var fd = getDomById("file");
 		var fls = fd.files;
 		var fdn = "";
 		for (var i = 0; i < fls.length; i++) {
@@ -289,11 +292,6 @@ function fileInputChange() {
 		getDomById("fileForm").submit();
 	})
 };
-
-//状态点击
-// function stateClick() {
-// 	state.style.display = "none";
-// }
 
 if (mf.attachEvent) { //IE
 	mf.attachEvent("onload", reload);
