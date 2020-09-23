@@ -36,7 +36,7 @@ PCB去嘉立创打样5块钱5个，ESP8266EX在淘宝4块钱就能买到，名�
 7. 工具：打包spiffs工具在tool目录里面<br>
 
 ### 3. 性能测试
-尽量保持天线在同一方向和高度，手机在同一方向和高度，同一时间段的测试结果。<br>
+尽量保持天线和手机在同一方向和高度，并且在同一时间段测试。<br>
 ![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/cs1.png?x-oss-process=image/resize,m_lfit,w_800)<br>
 
 ### 4. 准备
@@ -48,7 +48,7 @@ PCB去嘉立创打样5块钱5个，ESP8266EX在淘宝4块钱就能买到，名�
 2. 烧录前保证线路连接正常，然后断掉总电源在接上。如果Arduino报错，建议关掉再打开，或者重启电脑。
 3. PCB厚度1.0mm。
 4. ESP8266EX最大支持16MB Flash，可用Web主页空间不到15MB。
-5. 个人网站文件名称和路径长度不能超过32字节，建议使用vue-cli或webpack开发。
+5. 个人网站文件名称包括路径长度不能超过32字节，建议使用vue-cli或webpack开发。
 
 <br>
 
