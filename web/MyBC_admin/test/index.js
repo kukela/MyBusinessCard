@@ -6,13 +6,6 @@ var wl = getDomById("wl");
 var off = getDomById("off");
 var channel = getDomById("channel");
 var img = getDomById("img");
-var ti = new Date().getTime();
-img.src = "./img/x4.jpg";
-
-window.onload = function() {
-	var t = new Date().getTime() - ti;
-	jt.innerText = "Load time: " + t + "ms";
-}
 
 function mClick(e) {
 	switch (e.id) {
@@ -61,7 +54,18 @@ requestGet("/config", function() {
 	var json = JSON.parse(jsonStr);
 
 	channel.value = json["channel"];
+	lt();
 });
+
+//速度测试
+function lt() {
+	var ti = new Date().getTime();
+	img.src = "./img/x4.jpg";
+	img.onload = function() {
+		var t = new Date().getTime() - ti;
+		jt.innerText = "Load time: " + t + "ms";
+	}
+}
 
 //get请求
 function requestGet(url, f) {
