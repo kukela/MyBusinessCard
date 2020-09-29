@@ -64,3 +64,7 @@ void ledLight(uint8_t type) {
       break;
   }
 }
+
+void offLed() {
+  ledLight(0);
+}

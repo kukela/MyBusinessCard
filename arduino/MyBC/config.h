@@ -54,7 +54,7 @@ static uint8_t ssidAddr = 34;
 static uint8_t pwdAddr = 66;
 
 // 更新相关
-uint16_t ver = 1000;
+uint16_t ver = 1001;
 char wver[7] = "";
 static const String update_host = "http://kukela-bin.oss-cn-shanghai.aliyuncs.com/mybc/";
 uint8_t progress = 0;

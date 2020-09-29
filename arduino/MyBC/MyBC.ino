@@ -50,8 +50,6 @@ void setup()
   webServer.on("/progress", HTTP_GET, handleProgress); //获取进度
   webServer.begin();
 
-  ledLight(0);
-
   if (!SPIFFS.begin()) {
     Serial.println("fs begin error");
     return;
@@ -59,6 +57,9 @@ void setup()
 
   getEEPROM();
   connect = strlen(ssid) > 0;
+
+  ledLight(1);
+  ticker.once_ms(1000, offLed);
 }
 
 void loop()
