@@ -100,7 +100,7 @@ void setChangeAP() {
 uint8_t getChangeAp() {
   uint8_t v = EEPROM.read(channelAddr);
   if (v < 1 || v > 14) {
-    v = 7;
+    v = defChange;
   }
   return v;
 }

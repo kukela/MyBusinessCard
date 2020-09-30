@@ -1,3 +1,6 @@
+// 硬件版本，详情请看README.md中的1.5章节
+#define H_VER 2
+
 // 引脚地址
 #define L1 4
 #define L2 5
@@ -56,6 +59,16 @@ static uint8_t pwdAddr = 66;
 // 更新相关
 uint16_t ver = 1001;
 char wver[7] = "";
-static const String update_host = "http://kukela-bin.oss-cn-shanghai.aliyuncs.com/mybc/";
 uint8_t progress = 0;
 static uint8_t progressAddr = 131;
+
+//根据硬件版本编译
+#if H_VER == 1
+// 默认信道
+static uint8_t defChange = 7;
+// 更新服务地址
+static const String update_host = "http://kukela-bin.oss-cn-shanghai.aliyuncs.com/mybc/";
+#else
+static uint8_t defChange = 5;
+static const String update_host = "http://kukela-bin.oss-cn-shanghai.aliyuncs.com/mybc2/";
+#endif

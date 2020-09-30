@@ -5,7 +5,7 @@ void handleGetFSInfo() {
     webServer.send(500, FPSTR(TEXT_PLAIN), "fs info error");
     return;
   }
-  maxPathLength = fs_info.maxPathLength;
+  maxPathLength = fs_info.maxPathLength - 1;
 
   String json;
   json.reserve(1024);
