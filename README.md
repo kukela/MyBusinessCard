@@ -10,11 +10,10 @@ USB即插即用。<br>
 PCB去嘉立创打样5块钱5个，ESP8266EX在淘宝4块钱就能买到，名片物料成本在10块钱左右。<br>
 外观参考了国外大神 George Hilliard 的设计。<br>
 
-#### 1.3. 视频介绍
-<a href="https://www.bilibili.com/video/BV18K411P7Zs/" target="_blank">项目介绍</a><br>
-<a href="https://www.bilibili.com/video/BV1G54y11733/" target="_blank">功能演示 性能测试 制作过程</a><br>
-<a href="https://www.bilibili.com/video/BV1wK4y1Y7S2/" target="_blank">心得体会</a><br>
+#### 1.3. 视频
+<a href="https://www.bilibili.com/video/BV18K411P7Zs/" target="_blank">项目介绍</a>、<a href="https://www.bilibili.com/video/BV1G54y11733/" target="_blank">功能演示 性能测试 制作过程</a>、<a href="https://www.bilibili.com/video/BV1wK4y1Y7S2/" target="_blank">心得体会</a><br>
 <a href="https://www.youtube.com/watch?v=RA2ZFGR8FDk" target="_blank">YouTube</a><br>
+教程：<a href="https://www.bilibili.com/video/BV1ay4y1C7zS/" target="_blank">PCB天线阻抗匹配实用教程</a>、<a href="https://www.youtube.com/watch?v=T8HaHW5-5hg&list=PLIE3qVbtOw1usafOfu7ap5RvYLhmlWPla" target="_blank">YouTube</a>
 
 #### 1.4. 图片展示
 ![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/js1.jpg?x-oss-process=image/resize,m_lfit,w_680)<br>
@@ -46,7 +45,7 @@ lwIP Variant: v2 Higher Bandwidth (no features)  —— 高带宽（少占用Fla
 1. 嵌入式IDE：Arduino（硬件程序开发）<br>
 2. EDA工具：立创EDA（原理图和PCB设计）<br>
 ![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/cardx.png?x-oss-process=image/resize,m_lfit,w_680)<br>
-3. 电磁仿真：Ansys HFSS（天线阻抗匹配）<br>
+3. 电磁仿真：Ansys HFSS（天线阻抗匹配）仿真文件需用ANSYS Electronics Desktop打开<br>
 ![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/zk1.png?x-oss-process=image/resize,m_lfit,w_640)<br>
 ![](https://kukela-images.oss-cn-shanghai.aliyuncs.com/MyBusinessCard/zk2.png?x-oss-process=image/resize,m_lfit,w_640)<br>
 4. 3D建模：SketchUP（USB小零件）<br>
@@ -65,10 +64,10 @@ lwIP Variant: v2 Higher Bandwidth (no features)  —— 高带宽（少占用Fla
 2. 烧录前保证线路连接正常，然后断掉总电源在接上。如果Arduino报错，建议关掉再打开，或者重启电脑。
 3. PCB厚度1.0mm。
 4. ESP8266EX最大支持16MB Flash，可用Web主页空间不到15MB。
-5. 个人网站文件名称包括路径长度不能超过32字节，建议使用vue-cli或webpack开发。
+5. 个人网站文件名称包括路径长度不能超过31字节，建议使用vue-cli或webpack开发。
 
 ### 5. 性能测试
-#### 5.1. 测试烧录配置表
+#### 5.1. 烧录配置表
 
 | 测试序号头 | CPU频率 | 晶振频率 | Flash模式 | Flash频率 | lwIP Variant |
 | --------- | ------- | ------- | --------- | --------- | ------------ |
