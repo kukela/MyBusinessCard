@@ -29,7 +29,6 @@ void setup()
   dnsServer.start(DNS_PORT, "*", apIP);
 
   webServer.on("/", handleRoot);
-  webServer.on("/rsp204", handleRoot);
   webServer.on("/generate_204", handleRoot);
   webServer.on("/fwlink", handleRoot);
   webServer.on("/wifi", handleWifi);
@@ -100,7 +99,7 @@ void loop()
       MDNS.update();
     }
   }
- 
+
   dnsServer.processNextRequest();
   webServer.handleClient();
 }

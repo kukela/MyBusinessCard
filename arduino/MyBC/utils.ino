@@ -43,8 +43,14 @@ bool isCache() {
 // 当前请求是否在host
 bool isHost() {
   String hh = webServer.hostHeader();
-  return hh == apIP.toString() || hh == WiFi.localIP().toString() ||
-         hh == (String(myHostname) + ".com") || hh == (String(myHostname) + ".local");
+  if (hh == apIP.toString() || hh == WiFi.localIP().toString() ||
+      hh == (String(myHostname) + ".com") || hh == (String(myHostname) + ".local")) {
+    return true;
+  }
+  Serial.println(webServer.uri() + " 重定向host");
+  webServer.sendHeader("Location", "http://" + webServer.client().localIP().toString(), true);
+  replyServerCode(302);
+  return false;
 }
 
 //获取EEPROM中的数据

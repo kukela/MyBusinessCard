@@ -1,18 +1,11 @@
 // 首页
 void handleRoot() {
-  if (!isHost()) {
-    Serial.println(webServer.uri() + " 重定向host");
-    webServer.sendHeader("Location", "http://" + webServer.client().localIP().toString(), true);
-    replyServerCode(302);
-    return;
-  }
   replyFile(getHomeUrl());
 }
 
 // 请求不在host中或者fs中找不到资源返回404
 void handleNotFound() {
   if (!isHost()) {
-    replyServerNotFound(webServer.uri());
     return;
   }
   replyFile(webServer.uri());
