@@ -1,9 +1,21 @@
 // 首页
 void handleRoot() {
-  if (captivePortal()) {
+  if (!isHost()) {
+    Serial.println(webServer.uri() + " 重定向host");
+    webServer.sendHeader("Location", "http://" + webServer.client().localIP().toString(), true);
+    replyServerCode(302);
     return;
   }
   replyFile(getHomeUrl());
+}
+
+// 请求不在host中或者fs中找不到资源返回404
+void handleNotFound() {
+  if (!isHost()) {
+    replyServerNotFound(webServer.uri());
+    return;
+  }
+  replyFile(webServer.uri());
 }
 
 // 管理页面
@@ -15,25 +27,25 @@ void handleAdmin() {
 // 指令集
 void handleIS() {
   ticker.detach();
-  
+
   int v = webServer.arg("v").toInt();
-  switch(v) {
+  switch (v) {
     case 0: { // 格式化SPIFFS
-      if(clearFS()) {
-        webServer.send(200, FPSTR(TEXT_PLAIN), "1");
-      } else {
-        webServer.send(500, FPSTR(TEXT_PLAIN), "0");
+        if (clearFS()) {
+          webServer.send(200, FPSTR(TEXT_PLAIN), "1");
+        } else {
+          webServer.send(500, FPSTR(TEXT_PLAIN), "0");
+        }
+        break;
       }
-      break;
-    }
     case 1: { // 清除EEPROM
-      for (int i = 0; i < eepromSize; i++) {
-        EEPROM.write(i, 0);
+        for (int i = 0; i < eepromSize; i++) {
+          EEPROM.write(i, 0);
+        }
+        EEPROM.end();
+        EEPROM.begin(eepromSize);
+        replyServerCode(200);
       }
-      EEPROM.end();
-      EEPROM.begin(eepromSize);
-      replyServerCode(200);
-    }
   }
 }
 
@@ -54,7 +66,7 @@ void handleConfig() {
 // 设置配置
 void handlePutConfig() {
   ticker.detach();
-  
+
   uint8_t i = 0;
   String v = webServer.arg("c");
   Serial.println("channel: " + v);
@@ -64,7 +76,7 @@ void handlePutConfig() {
     EEPROM.commit();
     setChangeAP();
   }
-  
+
   v = webServer.arg("hu");
   Serial.println("homeUrl: " + v);
   if (!v.isEmpty()) {
@@ -72,15 +84,15 @@ void handlePutConfig() {
     EEPROM.put(homeUrlStartAddr, homeUrl);
     EEPROM.commit();
   }
-  
+
   v = webServer.arg("ca");
   Serial.println("cache: " + v);
   if (!v.isEmpty()) {
     i = v == "true" ? 1 : 0;
     EEPROM.write(changeAddr, i);
     EEPROM.commit();
-  }  
-  
+  }
+
   replyServerCode(200);
 }
 

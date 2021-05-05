@@ -1,5 +1,5 @@
-// 硬件版本，详情请看README.md中的1.5章节
-#define H_VER 2
+// 硬件版本序号，详情请看README.md中的1.5章节
+#define HV_N 3
 
 // 引脚地址
 #define L1 4
@@ -57,13 +57,13 @@ static uint8_t ssidAddr = 34;
 static uint8_t pwdAddr = 66;
 
 // 更新相关
-uint16_t ver = 1001;
+uint16_t ver = 1002;
 char wver[7] = "";
 uint8_t progress = 0;
 static uint8_t progressAddr = 131;
 
 //根据硬件版本编译
-#if H_VER == 1
+#if HV_N == 1
 // 默认信道
 static uint8_t defChange = 7;
 // 更新服务地址

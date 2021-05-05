@@ -25,16 +25,17 @@ void setup()
   WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
   setChangeAP();
 
-  dnsServer.setTTL(300);
   dnsServer.setErrorReplyCode(DNSReplyCode::NoError);
-  dnsServer.start(DNS_PORT, "www.hello.com", apIP);
   dnsServer.start(DNS_PORT, "*", apIP);
 
-  webServer.on("/", HTTP_GET, handleRoot);
-  webServer.on("/generate_204", HTTP_GET, handleRoot);
+  webServer.on("/", handleRoot);
+  webServer.on("/rsp204", handleRoot);
+  webServer.on("/generate_204", handleRoot);
   webServer.on("/fwlink", handleRoot);
-  webServer.on("/admin", HTTP_GET, handleAdmin);
+  webServer.on("/wifi", handleWifi);
+  webServer.on("/wifisave", handleWifiSave);
   webServer.onNotFound(handleNotFound);
+  webServer.on("/admin", handleAdmin);
   webServer.on("/info", HTTP_GET, handleGetFSInfo); // 文件信息
   webServer.on("/update", HTTP_POST, handleFileUploadAfter, handleFileUpload); // 上传文件
   webServer.on("/is", HTTP_GET, handleIS); // 指令集

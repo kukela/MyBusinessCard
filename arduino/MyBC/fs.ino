@@ -115,29 +115,24 @@ void handleFileUploadAfter() {
   webServer.send(200, FPSTR(TEXT_PLAIN), "上传成功！");
 }
 
-// 请求文件
-void handleNotFound() {
-  if (captivePortal()) {
-    return;
-  }
-  String path = webServer.uri();
-  replyFile(path);
-}
-
 // 返回文件
 void replyFile(String path) {
   String contentType = mime::getContentType(path);
   Serial.println(path + " - " + contentType);
   
   if (!SPIFFS.exists(path)) {
+    if(path == getHomeUrl()) {
+      webServer.sendHeader("Location", "http://" + webServer.client().localIP().toString() + "/admin", true);
+      replyServerCode(307);
+      return;
+    }
     replyServerCode(204);
     return;
   }
   file = SPIFFS.open(path, "r");
   configSendHeader();
   if (webServer.streamFile(file, contentType) != file.size()) {
-    Serial.println("File Not Found " + path);
-    webServer.send(404, FPSTR(TEXT_PLAIN), "File Not Found: " + path);
+    replyServerNotFound(path);
   }
   file.close();
 }

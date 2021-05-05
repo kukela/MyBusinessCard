@@ -1,3 +1,11 @@
+void handleWifi() {
+  replyServerCode(200);
+}
+
+void handleWifiSave() {
+  replyServerCode(200);
+}
+
 // 返回 Wi-Fi 扫描结果
 void handleWifiscan() {
   ticker.detach();
